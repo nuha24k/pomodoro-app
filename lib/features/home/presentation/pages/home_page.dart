@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../bloc/home_bloc.dart';
+import '../bloc/home_event.dart';
+import '../bloc/home_state.dart';
+import '../../../../core/widgets/shared_bottom_nav.dart';
+import '../../../../core/navigation/navigation_cubit.dart';
+import '../widgets/event_banner.dart';
+import '../widgets/home_header.dart';
+import '../widgets/task_grid.dart';
+
+/// Halaman utama FocusFlow
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeBloc()..add(LoadHomeDataEvent()),
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          bottom: false, // Bottom padding diatur di CustomBottomNav
+          child: Stack(
+            children: [
+              // Konten Utama
+              CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        const HomeHeader(),
+                        const SizedBox(height: 32),
+                        const EventBanner(),
+                        const SizedBox(height: 32),
+                        _buildTaskGridSection(),
+                        // Spacer untuk bottom nav agar tidak tertutup
+                        const SizedBox(height: 100),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+              
+              // Bottom Nav (Floating)
+              const Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SharedBottomNav(activeTab: NavigationTab.home),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Membuat bagian Task Grid dengan mendengarkan state dari BLoC
+  Widget _buildTaskGridSection() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return TaskGrid(tasks: state.tasks);
+      },
+    );
+  }
+}

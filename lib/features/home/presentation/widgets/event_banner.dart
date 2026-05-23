@@ -70,7 +70,7 @@ class EventBanner extends StatelessWidget {
           Text(
             '11:00 am – 12:30 am',
             style: AppTypography.bodyMedium.copyWith(
-              color: AppColors.textPrimary.withOpacity(0.7),
+              color: AppColors.textPrimary.withValues(alpha: 0.7),
             ),
           ),
         ],

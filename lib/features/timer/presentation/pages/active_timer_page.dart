@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/shared_bottom_nav.dart';
 import '../../../../core/navigation/navigation_cubit.dart';
-import '../../../../core/theme/app_typography.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import '../bloc/timer_bloc.dart';
 import '../bloc/timer_event.dart';
 import '../bloc/timer_state.dart';

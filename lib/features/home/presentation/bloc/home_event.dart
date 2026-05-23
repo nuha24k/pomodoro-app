@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/task_entity.dart';
 
 /// Abstract class untuk semua event di Home Screen
 abstract class HomeEvent extends Equatable {

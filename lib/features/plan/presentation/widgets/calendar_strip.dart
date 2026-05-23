@@ -155,16 +155,16 @@ class _CalendarStripState extends State<CalendarStrip> {
                           color: isSelected
                               ? Colors.white
                               : isToday
-                                  ? Colors.white.withOpacity(0.35)
+                                  ? Colors.white.withValues(alpha: 0.35)
                                   : Colors.transparent,
                           borderRadius: BorderRadius.circular(16),
                           border: isToday && !isSelected
-                              ? Border.all(color: AppColors.textPrimary.withOpacity(0.2), width: 1.2)
+                              ? Border.all(color: AppColors.textPrimary.withValues(alpha: 0.2), width: 1.2)
                               : null,
                           boxShadow: isSelected
                               ? [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.04),
+                                    color: Colors.black.withValues(alpha: 0.04),
                                     blurRadius: 4,
                                     offset: const Offset(0, 2),
                                   ),

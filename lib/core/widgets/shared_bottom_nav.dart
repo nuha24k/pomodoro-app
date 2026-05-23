@@ -47,13 +47,22 @@ class _SharedBottomNavState extends State<SharedBottomNav> {
       clipBehavior: Clip.none,
       alignment: Alignment.bottomRight,
       children: [
-        // Menu konteks melayang di atas FAB
-        if (_isMenuOpen)
-          Positioned(
-            bottom: 130, // Jarak di atas FAB agar tidak bertabrakan dengan tombol
-            right: 24,
-            child: _buildFloatingContextMenu(),
+        // Menu konteks melayang di atas FAB dengan animasi meluncur dan memudar (smooth)
+        AnimatedPositioned(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutBack, // Memberikan efek pantulan memantul (elastic bounce) yang premium
+          bottom: _isMenuOpen ? 130 : 90, // Meluncur ke atas dari balik FAB
+          right: 24,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            opacity: _isMenuOpen ? 1.0 : 0.0,
+            child: IgnorePointer(
+              ignoring: !_isMenuOpen, // Mencegah interaksi saat menu tersembunyi
+              child: _buildFloatingContextMenu(),
+            ),
           ),
+        ),
         
         // Bottom Nav Bar
         SafeArea(
@@ -176,16 +185,29 @@ class _SharedBottomNavState extends State<SharedBottomNav> {
               size: 20,
               color: isActive ? AppColors.textPrimary : AppColors.textSecondary,
             ),
-            if (isActive) ...[
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: AppTypography.bodyMedium.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
+            AnimatedCrossFade(
+              firstChild: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: AppTypography.bodyMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
               ),
-            ],
+              secondChild: const SizedBox.shrink(),
+              crossFadeState: isActive
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 250),
+              sizeCurve: Curves.easeInOut,
+              firstCurve: Curves.easeInOut,
+              secondCurve: Curves.easeInOut,
+            ),
           ],
         ),
       ),

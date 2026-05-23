@@ -4,8 +4,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
-import '../../../../core/widgets/shared_bottom_nav.dart';
-import '../../../../core/navigation/navigation_cubit.dart';
 import '../widgets/event_banner.dart';
 import '../widgets/home_header.dart';
 import '../widgets/task_grid.dart';
@@ -21,35 +19,22 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SafeArea(
-          bottom: false, // Bottom padding diatur di CustomBottomNav
-          child: Stack(
-            children: [
-              // Konten Utama
-              CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        const HomeHeader(),
-                        const SizedBox(height: 32),
-                        const EventBanner(),
-                        const SizedBox(height: 32),
-                        _buildTaskGridSection(),
-                        // Spacer untuk bottom nav agar tidak tertutup
-                        const SizedBox(height: 100),
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-              
-              // Bottom Nav (Floating)
-              const Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: SharedBottomNav(activeTab: NavigationTab.home),
+          bottom: false, // Padding bawah disesuaikan dengan spacer bottom nav
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    const HomeHeader(),
+                    const SizedBox(height: 32),
+                    const EventBanner(),
+                    const SizedBox(height: 32),
+                    _buildTaskGridSection(),
+                    // Spacer untuk bottom nav agar tidak tertutup
+                    const SizedBox(height: 120),
+                  ]),
+                ),
               ),
             ],
           ),
